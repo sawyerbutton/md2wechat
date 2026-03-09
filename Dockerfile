@@ -1,11 +1,11 @@
-# Stage 1: Install all dependencies and build TypeScript
+# Stage 1: Build TypeScript (only needs tsc, not native modules)
 FROM node:20-alpine AS builder
 
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci --os=linux --cpu=x64 --libc=musl
+COPY package*.json tsconfig.json ./
+RUN apk add --no-cache python3 make g++ && \
+    npm ci --os=linux --cpu=x64 --libc=musl
 
-COPY tsconfig.json ./
 COPY src/ ./src/
 RUN npx tsc
 
