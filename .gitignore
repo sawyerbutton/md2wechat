@@ -5,5 +5,4 @@ data/*.db-shm
 data/*.db-wal
 .env
 *.log
-docs/
 test_article.md

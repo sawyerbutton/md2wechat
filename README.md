@@ -303,6 +303,29 @@ curl -X POST http://localhost:3000/api/publish \
 
 ---
 
+### 接入 OpenClaw（AI 助手自动发文）
+
+[OpenClaw](https://openclaw.ai) 是一个开源自托管 AI 助手平台，支持 20+ 聊天渠道。通过内置的 `wechat-publisher` Skill，可以用自然语言指令发布公众号文章。
+
+```bash
+# 安装 Skill
+cp -r wechat-publisher/ ~/.openclaw/skills/wechat-publisher/
+
+# 设置环境变量
+export MD2WECHAT_URL="http://your-server:3000"
+export MD2WECHAT_API_KEY="your-api-key"
+```
+
+然后在任意聊天渠道对 OpenClaw 说：
+
+- "发布 report.md 到公众号，用蓝色主题"
+- "看看最近发布了哪些文章"
+- "每周一早上 9 点自动发布 weekly.md"
+
+详见 [OpenClaw 集成文档](docs/openclaw-integration.md)。
+
+---
+
 ### 接入 n8n
 
 在 n8n 中使用 **HTTP Request** 节点：
@@ -360,6 +383,8 @@ md2wechat/
 │   └── index.html      # Web 管理面板（单文件 SPA）
 ├── assets/
 │   └── backgrounds/    # 内置封面背景图
+├── wechat-publisher/   # OpenClaw Skill（可复制到其他项目使用）
+├── docs/               # 集成文档
 ├── config/             # 用户配置目录（容器挂载）
 ├── themes/             # 用户自定义主题目录（容器挂载）
 ├── data/               # SQLite 数据文件目录（容器挂载）
@@ -425,7 +450,7 @@ A：微信限制摘要（digest）最长 120 个字符。v1.0.0+ 版本已自动
 
 **Q：能否支持定时发布？**
 
-A：微信草稿箱不支持定时发布，需要人工在公众号后台点击发布。定时投递到草稿箱的功能目前不在计划中。
+A：微信草稿箱不支持定时发布，最终仍需在公众号后台点击发布。但可以通过 [OpenClaw](https://openclaw.ai) 的 Cron 功能定时投递草稿到草稿箱，详见 [OpenClaw 集成文档](docs/openclaw-integration.md)。
 
 ---
 
